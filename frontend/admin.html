@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mesas de Atención | Turnero UT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <main class="layout shell-layout">
+        <div class="shell-container shell-container-medium">
+            <header class="shell-header shell-header-compact">
+                <div class="brand brand-hero">
+                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager" decoding="async" />
+                    <div>
+                        <p class="institution">Universidad del Tolima</p>
+                        <h1 class="title">Acceso de funcionarios por mesa</h1>
+                        <p class="subtitle">Ingresa de forma segura a tu mesa para operar el dashboard sin cruces entre perfiles.</p>
+                    </div>
+                </div>
+                <div class="shell-actions">
+                    <a class="chip-link" href="./index.html">Volver al inicio</a>
+                    <button id="themeToggle" class="chip-link chip-link-button" type="button">Modo oscuro</button>
+                </div>
+            </header>
+
+            <section class="hub-card panel panel-premium login-card-centered page-section">
+                <div class="role-selector-head">
+                    <p class="section-kicker">Acceso de funcionarios</p>
+                    <h2 class="section-title">Inicio de sesión por mesa</h2>
+                </div>
+                <p class="section-copy">Selecciona tu mesa de atención e ingresa el PIN de seguridad para entrar al dashboard de control.</p>
+
+                <form id="funcionarioLoginForm" class="funcionario-login-form" novalidate>
+                    <div class="field">
+                        <label for="mesaId">Mesa</label>
+                        <select id="mesaId" name="mesaId" required>
+                            <option value="">Selecciona la mesa</option>
+                            <option value="1">Mesa 1 - Angela</option>
+                            <option value="2">Mesa 2 - Lorena</option>
+                            <option value="3">Mesa 3 - Graciela</option>
+                            <option value="4">Mesa 4 - Lina</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="mesaPin">PIN de seguridad</label>
+                        <input id="mesaPin" name="mesaPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Ejemplo: 2024" required />
+                        <p class="hint">Ingresa 4 dígitos para habilitar el dashboard de tu mesa.</p>
+                    </div>
+
+                    <p id="loginError" class="error" role="alert" aria-live="polite"></p>
+
+                    <div class="actions actions-end">
+                        <button id="btnLoginFuncionario" class="btn btn-primary" type="submit">Ingresar al dashboard</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script src="./admin.js" defer></script>
+</body>
+
+</html>

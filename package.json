@@ -1,0 +1,26 @@
+{
+    "name": "turnero-ut",
+    "version": "1.0.0",
+    "description": "Sistema web de turnos administrativos para universidad (sin autenticacion).",
+    "main": "backend/server.js",
+    "scripts": {
+        "start": "node backend/server.js",
+        "dev": "nodemon backend/server.js"
+    },
+    "dependencies": {
+        "dotenv": "^16.5.0",
+        "exceljs": "^4.4.0",
+        "express": "^4.21.2",
+        "sqlite3": "^5.1.7"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
+    },
+    "keywords": [
+        "turnero",
+        "universidad",
+        "express",
+        "sqlite"
+    ],
+    "license": "MIT"
+}

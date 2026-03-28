@@ -1,0 +1,53 @@
+[
+    {
+        "nombre": "Angela",
+        "programas": [
+            "Ingeniería de Sistemas",
+            "Psicología"
+        ],
+        "tiposAtencion": [
+            "matricula",
+            "notas",
+            "certificados"
+        ],
+        "activa": true
+    },
+    {
+        "nombre": "Lorena",
+        "programas": [
+            "Administración de Empresas",
+            "Contaduría Pública"
+        ],
+        "tiposAtencion": [
+            "matricula",
+            "certificados",
+            "otro"
+        ],
+        "activa": true
+    },
+    {
+        "nombre": "Graciela",
+        "programas": [
+            "Derecho",
+            "Licenciatura en Matemáticas"
+        ],
+        "tiposAtencion": [
+            "notas",
+            "certificados",
+            "otro"
+        ],
+        "activa": true
+    },
+    {
+        "nombre": "Lina",
+        "programas": [
+            "*"
+        ],
+        "tiposAtencion": [
+            "prestamo_equipos",
+            "otro",
+            "*"
+        ],
+        "activa": true
+    }
+]
