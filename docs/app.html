@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turnero UT | Universidad del Tolima</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./frontend/style.css" />
+</head>
+
+<body>
+    <main class="layout shell-layout">
+        <div class="shell-container shell-container-wide">
+            <header class="shell-header shell-header-hero">
+                <div class="brand brand-hero">
+                    <img class="brand-logo" src="./frontend/assets/images.png" alt="Universidad del Tolima" loading="eager" decoding="async" />
+                    <div>
+                        <p class="institution">Universidad del Tolima</p>
+                        <h1 class="title">Sistema de turnos administrativos</h1>
+                        <p class="subtitle">Atención simple, rápida y organizada para estudiantes y funcionarios.</p>
+                    </div>
+                </div>
+                <div class="shell-actions">
+                    <button id="btnAdmin" class="chip-link" type="button">Acceso funcionarios</button>
+                    <button id="themeToggle" class="chip-link chip-link-button" type="button">Modo oscuro</button>
+                </div>
+            </header>
+
+            <section class="role-selector panel-glass page-section" aria-label="Selector de perfiles">
+                <div class="role-selector-head">
+                    <p class="section-kicker">Pantalla de bienvenida</p>
+                    <h2 class="section-title">Selecciona tu perfil</h2>
+                </div>
+                <div class="role-grid">
+                    <button id="tabEstudiantes" class="role-card is-active" type="button">
+                        <span class="role-icon">EST</span>
+                        <span class="role-name">Estudiante</span>
+                        <span class="role-copy">Solicita un turno en 3 pasos y descarga tu comprobante.</span>
+                    </button>
+                    <button id="tabFuncionarios" class="role-card" type="button">
+                        <span class="role-icon">FUN</span>
+                        <span class="role-name">Funcionario</span>
+                        <span class="role-copy">Accede con PIN de seguridad y gestiona la mesa asignada.</span>
+                    </button>
+                </div>
+                <div id="panelEstudiantes" class="role-panel is-active">
+                    <p class="role-panel-copy">Completa tu solicitud desde el flujo guiado y revisa en tiempo real el estado de la atención.</p>
+                    <button id="goToFormBtn" class="btn btn-primary" type="button">Empezar solicitud</button>
+                </div>
+                <div id="panelFuncionarios" class="role-panel" hidden>
+                    <p class="role-panel-copy">Cada mesa tiene su propia vista operativa para evitar cruces entre funcionarios y mejorar el control.</p>
+                    <button id="btnLoginForm" class="btn btn-primary" type="button">Ir al login de funcionarios</button>
+                </div>
+            </section>
+
+            <section class="student-board page-section">
+                <article id="turneroRequestPanel" class="panel panel-premium student-wizard">
+                    <div class="student-wizard-head">
+                        <div>
+                            <p class="section-kicker">Flujo del estudiante</p>
+                            <h2 class="section-title">Solicitud guiada</h2>
+                        </div>
+                        <div class="stepper-track" aria-label="Progreso del formulario">
+                            <span id="stepDot1" class="stepper-dot is-active">1</span>
+                            <span id="stepDot2" class="stepper-dot">2</span>
+                            <span id="stepDot3" class="stepper-dot">3</span>
+                        </div>
+                    </div>
+
+                    <div class="stepper-labels">
+                        <span class="step-label is-active">Identificación y carrera</span>
+                        <span class="step-label">Tipo de trámite</span>
+                        <span class="step-label">Resumen de confirmación</span>
+                    </div>
+
+                    <form id="turneroForm" novalidate>
+                        <section id="studentStep1" class="form-step is-active">
+                            <div class="field">
+                                <label for="nombre">Nombre (opcional)</label>
+                                <input id="nombre" name="nombre" type="text" maxlength="80" placeholder="Ejemplo: Ana Perez" />
+                                <p class="hint">Puedes dejarlo vacío si prefieres.</p>
+                            </div>
+
+                            <div class="field">
+                                <label for="programa">Programa académico</label>
+                                <select id="programa" name="programa" required>
+                                    <option value="">Selecciona tu programa</option>
+                                </select>
+                            </div>
+
+                            <div class="actions actions-end">
+                                <button id="btnNextStep" class="btn btn-primary" type="button">Continuar</button>
+                            </div>
+                        </section>
+
+                        <section id="studentStep2" class="form-step" hidden>
+                            <div id="tramiteCards" class="tramite-grid" aria-label="Selector de trámites"></div>
+                            <input id="tipoAtencion" name="tipoAtencion" type="hidden" required />
+
+                            <div class="field" id="otroField" hidden>
+                                <label for="detalleOtro">Detalle del trámite</label>
+                                <input id="detalleOtro" name="detalleOtro" type="text" maxlength="120" placeholder="Describe brevemente tu solicitud" />
+                            </div>
+
+                            <div class="actions actions-between">
+                                <button id="btnPrevStep" class="btn btn-secondary" type="button">Volver</button>
+                                <button id="btnReviewStep" class="btn btn-primary" type="button">Revisar</button>
+                            </div>
+                        </section>
+
+                        <section id="studentStep3" class="form-step" hidden>
+                            <div class="confirm-card">
+                                <p class="section-kicker">Resumen</p>
+                                <h3 class="confirm-title">Confirma tu solicitud</h3>
+                                <ul class="summary summary-confirm">
+                                    <li><strong>Nombre</strong><span id="reviewNombre">No informado</span></li>
+                                    <li><strong>Programa</strong><span id="reviewPrograma">-</span></li>
+                                    <li><strong>Trámite</strong><span id="reviewTipo">-</span></li>
+                                    <li><strong>Detalle</strong><span id="reviewDetalle">No aplica</span></li>
+                                </ul>
+                            </div>
+
+                            <p id="errorMsg" class="error" role="alert" aria-live="polite"></p>
+
+                            <div class="actions actions-between">
+                                <button id="btnBackToType" class="btn btn-secondary" type="button">Editar</button>
+                                <button id="btnGenerar" class="btn btn-primary" type="submit">Confirmar y Obtener Turno</button>
+                            </div>
+                        </section>
+                    </form>
+
+                    <article id="result" class="result" aria-live="polite">
+                        <h2>Turno generado correctamente</h2>
+                        <div class="ticket-circle-wrap">
+                            <p id="ticketCode" class="ticket ticket-circle" aria-label="Código de turno">T-000</p>
+                        </div>
+                        <ul class="summary">
+                            <li><strong>Nombre</strong><span id="outNombre">No informado</span></li>
+                            <li><strong>Programa</strong><span id="outPrograma">-</span></li>
+                            <li><strong>Tipo de atención</strong><span id="outTipo">-</span></li>
+                            <li><strong>Detalle</strong><span id="outDetalle">No aplica</span></li>
+                            <li><strong>Hora de emisión</strong><span id="outEmision">-</span></li>
+                            <li><strong>Hora estimada</strong><span id="outEstimada">-</span></li>
+                        </ul>
+                        <div class="actions actions-between actions-result">
+                            <button id="btnDownloadTicket" class="btn btn-secondary" type="button">Descargar comprobante</button>
+                            <button id="btnLimpiar" class="btn btn-primary" type="button">Nuevo turno</button>
+                        </div>
+                    </article>
+                </article>
+
+                <aside class="public-monitor">
+                    <article class="panel panel-premium public-monitor-card">
+                        <p class="section-kicker">Monitor público</p>
+                        <h2 class="section-title">Cola en tiempo real</h2>
+                        <div class="queue-metrics queue-metrics-compact">
+                            <p><strong>Pendientes</strong><span id="colaPendientes">-</span></p>
+                            <p><strong>Total del día</strong><span id="colaTotal">-</span></p>
+                            <p><strong>Tiempo estimado</strong><span id="colaMinutos">-</span> min</p>
+                        </div>
+                    </article>
+
+                    <article class="panel public-monitor-card">
+                        <div class="monitor-head">
+                            <h3 class="panel-title">Turnos pendientes</h3>
+                        </div>
+                        <div id="publicQueueList" class="queue-list">
+                            <div class="panel-empty">Cargando cola...</div>
+                        </div>
+                    </article>
+
+                    <article class="panel public-monitor-card">
+                        <div class="monitor-head">
+                            <h3 class="panel-title">Mesas activas</h3>
+                        </div>
+                        <div id="publicMesasGrid" class="public-mesas-grid">
+                            <div class="panel-empty">Cargando mesas...</div>
+                        </div>
+                    </article>
+                </aside>
+            </section>
+
+            <!-- LOGIN FUNCIONARIO -->
+            <section id="adminPanel" class="page-section" hidden>
+                <article class="panel panel-premium" style="max-width: 500px; margin: 0 auto;">
+                    <div class="student-wizard-head">
+                        <div>
+                            <p class="section-kicker">Seguridad</p>
+                            <h2 class="section-title">Acceso de funcionarios</h2>
+                        </div>
+                    </div>
+
+                    <form id="loginForm" style="display: flex; flex-direction: column; gap: 16px;">
+                        <div class="field">
+                            <label for="mesaId">Mesa</label>
+                            <select id="mesaId" name="mesaId" required>
+                                <option value="">Selecciona tu mesa</option>
+                                <option value="1">Mesa 1</option>
+                                <option value="2">Mesa 2</option>
+                                <option value="3">Mesa 3</option>
+                                <option value="4">Mesa 4</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="mesaPin">PIN (4 dígitos)</label>
+                            <input id="mesaPin" name="mesaPin" type="password" maxlength="4" pattern="[0-9]{4}" placeholder="0000" inputmode="numeric" required />
+                            <p class="hint">Ingresa el PIN de 4 dígitos asignado a tu mesa.</p>
+                        </div>
+
+                        <p id="loginError" class="error" role="alert" aria-live="polite"></p>
+
+                        <div class="actions actions-between">
+                            <button id="btnBackToMain" class="btn btn-secondary" type="button">Volver</button>
+                            <button class="btn btn-primary" type="submit">Ingresar al panel</button>
+                        </div>
+                    </form>
+                </article>
+            </section>
+
+            <!-- PANEL MESA -->
+            <section id="mesaPanel" class="page-section" hidden>
+                <div id="mesaContent"></div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        (() => {
+            "use strict";
+
+            // SIMULATED DATA
+            const PROGRAMS = [
+                "Ingeniería de Sistemas",
+                "Administración de Empresas",
+                "Contaduría Pública",
+                "Derecho",
+                "Licenciatura en Matemáticas",
+                "Psicología"
+            ];
+
+            const ATTENTION_TYPES = {
+                matricula: { label: "Matrícula", hint: "Actualizaciones y procesos académicos" },
+                notas: { label: "Notas", hint: "Certificaciones y novedades de calificaciones" },
+                certificados: { label: "Certificados", hint: "Documentos y constancias institucionales" },
+                prestamo_equipos: { label: "Préstamo de equipos", hint: "Soporte y entrega de recursos" },
+                otro: { label: "Otro", hint: "Trámite administrativo adicional" }
+            };
+
+            const MESA_PINS = {
+                "1": "1111",
+                "2": "2222",
+                "3": "3333",
+                "4": "4444"
+            };
+
+            let currentStep = 1;
+            let lastTicket = null;
+            let formData = {};
+            let simulatedTurnos = [
+                { id: 1, codigo: "T-001", estudiante: "Juan Pérez", programa: "Ingeniería", tipo: "Matrícula", mesa: 1, estado: "atendido" },
+                { id: 2, codigo: "T-002", estudiante: "María González", programa: "Administración", tipo: "Notas", mesa: 2, estado: "en_cola" },
+                { id: 3, codigo: "T-003", estudiante: "Carlos López", programa: "Derecho", tipo: "Certificados", mesa: 3, estado: "en_cola" }
+            ];
+
+            // DOM ELEMENTS
+            const elements = {
+                themeToggle: document.getElementById("themeToggle"),
+                tabEstudiantes: document.getElementById("tabEstudiantes"),
+                tabFuncionarios: document.getElementById("tabFuncionarios"),
+                panelEstudiantes: document.getElementById("panelEstudiantes"),
+                panelFuncionarios: document.getElementById("panelFuncionarios"),
+                goToFormBtn: document.getElementById("goToFormBtn"),
+                btnAdmin: document.getElementById("btnAdmin"),
+                btnLoginForm: document.getElementById("btnLoginForm"),
+                nombre: document.getElementById("nombre"),
+                programa: document.getElementById("programa"),
+                turneroForm: document.getElementById("turneroForm"),
+                studentStep1: document.getElementById("studentStep1"),
+                studentStep2: document.getElementById("studentStep2"),
+                studentStep3: document.getElementById("studentStep3"),
+                tramiteCards: document.getElementById("tramiteCards"),
+                tipoAtencion: document.getElementById("tipoAtencion"),
+                detalleOtro: document.getElementById("detalleOtro"),
+                otroField: document.getElementById("otroField"),
+                btnNextStep: document.getElementById("btnNextStep"),
+                btnPrevStep: document.getElementById("btnPrevStep"),
+                btnReviewStep: document.getElementById("btnReviewStep"),
+                btnBackToType: document.getElementById("btnBackToType"),
+                btnGenerar: document.getElementById("btnGenerar"),
+                btnLimpiar: document.getElementById("btnLimpiar"),
+                btnDownloadTicket: document.getElementById("btnDownloadTicket"),
+                result: document.getElementById("result"),
+                turneroRequestPanel: document.getElementById("turneroRequestPanel"),
+                colaPendientes: document.getElementById("colaPendientes"),
+                colaTotal: document.getElementById("colaTotal"),
+                colaMinutos: document.getElementById("colaMinutos"),
+                publicQueueList: document.getElementById("publicQueueList"),
+                publicMesasGrid: document.getElementById("publicMesasGrid"),
+                stepDots: Array.from(document.querySelectorAll(".stepper-dot")),
+                stepLabels: Array.from(document.querySelectorAll(".step-label")),
+                errorMsg: document.getElementById("errorMsg"),
+                adminPanel: document.getElementById("adminPanel"),
+                loginForm: document.getElementById("loginForm"),
+                mesaId: document.getElementById("mesaId"),
+                mesaPin: document.getElementById("mesaPin"),
+                loginError: document.getElementById("loginError"),
+                btnBackToMain: document.getElementById("btnBackToMain"),
+                mesaPanel: document.getElementById("mesaPanel"),
+                mesaContent: document.getElementById("mesaContent")
+            };
+
+            // THEME
+            function applyTheme() {
+                const theme = localStorage.getItem("ut_theme") || "light";
+                document.body.classList.toggle("theme-dark", theme === "dark");
+                elements.themeToggle.textContent = theme === "dark" ? "Modo claro" : "Modo oscuro";
+            }
+
+            elements.themeToggle.addEventListener("click", () => {
+                const theme = document.body.classList.contains("theme-dark") ? "light" : "dark";
+                localStorage.setItem("ut_theme", theme);
+                applyTheme();
+            });
+
+            // PROGRAMA SELECT
+            function loadPrograms() {
+                elements.programa.innerHTML = '<option value="">Selecciona tu programa</option>';
+                PROGRAMS.forEach(p => {
+                    const opt = document.createElement("option");
+                    opt.value = p;
+                    opt.textContent = p;
+                    elements.programa.appendChild(opt);
+                });
+            }
+
+            // TRAMITE CARDS
+            function renderTramiteCards() {
+                elements.tramiteCards.innerHTML = "";
+                Object.entries(ATTENTION_TYPES).forEach(([id, data]) => {
+                    const card = document.createElement("button");
+                    card.type = "button";
+                    card.className = "tramite-card";
+                    card.innerHTML = `<span class="card-title">${data.label}</span><p class="card-hint">${data.hint}</p>`;
+                    card.addEventListener("click", () => selectTramite(id, data.label));
+                    elements.tramiteCards.appendChild(card);
+                });
+            }
+
+            function selectTramite(id, label) {
+                formData.tipoId = id;
+                formData.tipoLabel = label;
+                elements.tipoAtencion.value = id;
+                
+                if (id === "otro") {
+                    elements.otroField.removeAttribute("hidden");
+                } else {
+                    elements.otroField.setAttribute("hidden", "");
+                    elements.detalleOtro.value = "";
+                }
+
+                document.querySelectorAll(".tramite-card").forEach(c => c.classList.remove("is-active"));
+                event.target.closest(".tramite-card").classList.add("is-active");
+            }
+
+            // STEP MANAGEMENT
+            function setStep(step) {
+                currentStep = step;
+                document.querySelectorAll(".form-step").forEach((el, i) => {
+                    el.toggleAttribute("hidden", i + 1 !== step);
+                });
+                
+                elements.stepDots.forEach((dot, i) => {
+                    dot.classList.toggle("is-active", i + 1 <= step);
+                });
+
+                elements.stepLabels.forEach((label, i) => {
+                    label.classList.toggle("is-active", i + 1 === step);
+                });
+            }
+
+            // FORM EVENTS
+            elements.btnNextStep.addEventListener("click", () => {
+                if (!elements.programa.value) {
+                    alert("Por favor selecciona un programa");
+                    return;
+                }
+                formData.programa = elements.programa.value;
+                formData.nombre = elements.nombre.value || "Sin nombre";
+                setStep(2);
+                renderTramiteCards();
+            });
+
+            elements.btnPrevStep.addEventListener("click", () => setStep(1));
+
+            elements.btnReviewStep.addEventListener("click", () => {
+                if (!formData.tipoId) {
+                    alert("Por favor selecciona un tipo de trámite");
+                    return;
+                }
+                document.getElementById("reviewNombre").textContent = formData.nombre;
+                document.getElementById("reviewPrograma").textContent = formData.programa;
+                document.getElementById("reviewTipo").textContent = formData.tipoLabel;
+                document.getElementById("reviewDetalle").textContent = formData.vipoId === "otro" ? elements.detalleOtro.value || "No especificado" : "No aplica";
+                setStep(3);
+            });
+
+            elements.btnBackToType.addEventListener("click", () => setStep(2));
+
+            elements.turneroForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                lastTicket = {
+                    codigo: "T-" + String(Math.floor(Math.random() * 9000) + 1000),
+                    nombre: formData.nombre,
+                    programa: formData.programa,
+                    tipo: formData.tipoLabel,
+                    detalle: formData.tipoId === "otro" ? elements.detalleOtro.value : "No aplica",
+                    emision: new Date().toLocaleTimeString("es-CO"),
+                    estimada: new Date(Date.now() + 15 * 60000).toLocaleTimeString("es-CO")
+                };
+
+                document.getElementById("ticketCode").textContent = lastTicket.codigo;
+                document.getElementById("outNombre").textContent = lastTicket.nombre;
+                document.getElementById("outPrograma").textContent = lastTicket.programa;
+                document.getElementById("outTipo").textContent = lastTicket.tipo;
+                document.getElementById("outDetalle").textContent = lastTicket.detalle;
+                document.getElementById("outEmision").textContent = lastTicket.emision;
+                document.getElementById("outEstimada").textContent = lastTicket.estimada;
+
+                elements.result.classList.add("is-active");
+                elements.turneroForm.style.display = "none";
+            });
+
+            elements.btnLimpiar.addEventListener("click", () => {
+                elements.result.classList.remove("is-active");
+                elements.turneroForm.style.display = "block";
+                elements.turneroForm.reset();
+                elements.nombre.value = "";
+                elements.programa.value = "";
+                elements.detalleOtro.value = "";
+                setStep(1);
+            });
+
+            elements.btnDownloadTicket.addEventListener("click", () => {
+                alert("Descargando comprobante: " + lastTicket.codigo);
+            });
+
+            // ROLE TABS
+            elements.tabEstudiantes.addEventListener("click", () => {
+                elements.tabEstudiantes.classList.add("is-active");
+                elements.tabFuncionarios.classList.remove("is-active");
+                elements.panelEstudiantes.removeAttribute("hidden");
+                elements.panelFuncionarios.setAttribute("hidden", "");
+            });
+
+            elements.tabFuncionarios.addEventListener("click", () => {
+                elements.tabFuncionarios.classList.add("is-active");
+                elements.tabEstudiantes.classList.remove("is-active");
+                elements.panelEstudiantes.setAttribute("hidden", "");
+                elements.panelFuncionarios.removeAttribute("hidden");
+            });
+
+            elements.goToFormBtn.addEventListener("click", () => {
+                elements.turneroRequestPanel.scrollIntoView({ behavior: "smooth" });
+            });
+
+            // ADMIN LOGIN
+            elements.btnAdmin.addEventListener("click", () => showAdminPanel());
+            elements.btnLoginForm.addEventListener("click", () => showAdminPanel());
+
+            function showAdminPanel() {
+                document.querySelectorAll(".page-section").forEach(el => {
+                    if (el !== elements.adminPanel) el.setAttribute("hidden", "");
+                });
+                elements.adminPanel.removeAttribute("hidden");
+                elements.loginError.textContent = "";
+            }
+
+            elements.btnBackToMain.addEventListener("click", () => {
+                document.querySelectorAll(".page-section").forEach(el => {
+                    if (el === elements.adminPanel || el === elements.mesaPanel) {
+                        el.setAttribute("hidden", "");
+                    } else {
+                        el.removeAttribute("hidden");
+                    }
+                });
+                elements.loginForm.reset();
+            });
+
+            elements.loginForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const mesa = elements.mesaId.value;
+                const pin = elements.mesaPin.value;
+
+                if (!mesa || !pin) {
+                    elements.loginError.textContent = "Completa todos los campos";
+                    return;
+                }
+
+                if (pin !== MESA_PINS[mesa]) {
+                    elements.loginError.textContent = "PIN incorrecto";
+                    return;
+                }
+
+                showMesaPanel(mesa);
+            });
+
+            function showMesaPanel(mesa) {
+                elements.adminPanel.setAttribute("hidden", "");
+                elements.mesaPanel.removeAttribute("hidden");
+
+                const mesaTurnos = simulatedTurnos.filter(t => t.mesa == mesa);
+                const html = `
+                    <div class="panel panel-premium">
+                        <div class="student-wizard-head">
+                            <div>
+                                <p class="section-kicker">Panel operativo</p>
+                                <h2 class="section-title">Mesa ${mesa}</h2>
+                            </div>
+                        </div>
+                        <div style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+                            <div class="mesa-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                                <div style="padding: 12px; background: var(--bg-soft); border-radius: 12px;">
+                                    <p style="font-size: 14px; color: var(--text-soft);">Pendientes</p>
+                                    <p style="font-size: 24px; font-weight: 700; color: var(--accent-primary);">${mesaTurnos.length}</p>
+                                </div>
+                                <div style="padding: 12px; background: var(--bg-soft); border-radius: 12px;">
+                                    <p style="font-size: 14px; color: var(--text-soft);">En atención</p>
+                                    <p style="font-size: 24px; font-weight: 700; color: var(--accent-success);">1</p>
+                                </div>
+                                <div style="padding: 12px; background: var(--bg-soft); border-radius: 12px;">
+                                    <p style="font-size: 14px; color: var(--text-soft);">Completados</p>
+                                    <p style="font-size: 24px; font-weight: 700; color: var(--accent-warning);">5</p>
+                                </div>
+                            </div>
+
+                            <div style="border-top: 1px solid var(--border-main); padding-top: 16px;">
+                                <h3 style="margin: 0 0 12px 0;">Turnos en cola</h3>
+                                ${mesaTurnos.map(t => `
+                                    <div style="padding: 12px; background: var(--bg-soft); border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <p style="margin: 0; font-weight: 600;">${t.codigo}</p>
+                                            <p style="margin: 0; font-size: 12px; color: var(--text-soft);">${t.estudiante} - ${t.tipo}</p>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Llamar</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <button type="button" class="btn btn-secondary" style="margin-top: 12px;" onclick="location.reload()">Salir</button>
+                        </div>
+                    </div>
+                `;
+                elements.mesaContent.innerHTML = html;
+            }
+
+            // PUBLIC BOARD
+            function updatePublicBoard() {
+                const pendientes = simulatedTurnos.filter(t => t.estado === "en_cola").length;
+                const total = simulatedTurnos.length;
+
+                elements.colaPendientes.textContent = pendientes;
+                elements.colaTotal.textContent = total;
+                elements.colaMinutos.textContent = Math.ceil(pendientes * 5);
+
+                elements.publicQueueList.innerHTML = simulatedTurnos
+                    .filter(t => t.estado === "en_cola")
+                    .map(t => `
+                        <div class="queue-item">
+                            <p><strong>${t.codigo}</strong></p>
+                            <p style="font-size: 12px; margin: 4px 0 0 0; color: var(--text-soft);">${t.estudiante}</p>
+                        </div>
+                    `).join('');
+
+                elements.publicMesasGrid.innerHTML = `
+                    <div class="mesa-status active">
+                        <p class="mesa-label">Mesa 1</p>
+                        <p class="mesa-code">T-001</p>
+                    </div>
+                    <div class="mesa-status">
+                        <p class="mesa-label">Mesa 2</p>
+                        <p class="mesa-code">-</p>
+                    </div>
+                    <div class="mesa-status">
+                        <p class="mesa-label">Mesa 3</p>
+                        <p class="mesa-code">T-003</p>
+                    </div>
+                    <div class="mesa-status">
+                        <p class="mesa-label">Mesa 4</p>
+                        <p class="mesa-code">-</p>
+                    </div>
+                `;
+            }
+
+            // INIT
+            applyTheme();
+            loadPrograms();
+            updatePublicBoard();
+            setInterval(updatePublicBoard, 30000);
+
+        })();
+    </script>
+
+    <style>
+        .queue-item {
+            padding: 12px;
+            background: var(--bg-soft);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .queue-item p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .mesa-status {
+            padding: 16px;
+            background: var(--bg-soft);
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--border-main);
+        }
+
+        .mesa-status.active {
+            border-color: var(--accent-success);
+            background: rgba(5, 150, 105, 0.08);
+        }
+
+        .mesa-label {
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-soft);
+            font-weight: 500;
+        }
+
+        .mesa-code {
+            margin: 8px 0 0 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .mesa-status.active .mesa-code {
+            color: var(--accent-success);
+        }
+
+        .tramite-card {
+            appearance: none;
+            padding: 16px;
+            background: var(--bg-soft);
+            border: 2px solid var(--border-main);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .tramite-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .tramite-card.is-active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .card-title {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .card-hint {
+            font-size: 12px;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .tramite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+        }
+
+        .result.is-active {
+            display: block;
+        }
+
+        .ticket-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin: 20px auto;
+        }
+
+        .ticket-circle-wrap {
+            margin: 20px 0;
+        }
+
+        .result h2 {
+            margin: 0 0 16px 0;
+            color: var(--accent-success);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.is-active {
+            display: block;
+        }
+
+        .summary {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+
+        .summary li {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-main);
+        }
+
+        .summary li:last-child {
+            border-bottom: none;
+        }
+
+        .confirm-card {
+            background: var(--bg-soft);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .confirm-title {
+            margin: 8px 0 16px 0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .actions-end {
+            justify-content: flex-end;
+        }
+
+        .actions-between {
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-soft);
+            color: var(--text-main);
+            border: 1px solid var(--border-main);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-main);
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .field label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .field input,
+        .field select {
+            padding: 10px 12px;
+            border: 1px solid var(--border-main);
+            border-radius: 8px;
+            background: var(--bg-card);
+            color: var(--text-main);
+        }
+
+        .field input:focus,
+        .field select:focus {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 0;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--text-soft);
+            margin: 0;
+        }
+
+        .error {
+            color: var(--accent-danger);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .public-mesas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+    </style>
+</body>
+
+</html>
