@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turnero UT | Universidad del Tolima</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <main class="layout shell-layout">
+        <div class="shell-container shell-container-wide">
+            <header class="shell-header shell-header-hero">
+                <div class="brand brand-hero">
+                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager" decoding="async" />
+                    <div>
+                        <p class="institution">Universidad del Tolima</p>
+                        <h1 class="title">Sistema de turnos administrativos</h1>
+                        <p class="subtitle">Atención simple, rápida y organizada para estudiantes y funcionarios.</p>
+                    </div>
+                </div>
+                <div class="shell-actions">
+                    <a class="chip-link" href="./admin.html">Acceso funcionarios</a>
+                    <button id="themeToggle" class="chip-link chip-link-button" type="button">Modo oscuro</button>
+                </div>
+            </header>
+
+            <section class="role-selector panel-glass page-section" aria-label="Selector de perfiles">
+                <div class="role-selector-head">
+                    <p class="section-kicker">Pantalla de bienvenida</p>
+                    <h2 class="section-title">Selecciona tu perfil</h2>
+                </div>
+                <div class="role-grid">
+                    <button id="tabEstudiantes" class="role-card is-active" type="button">
+                        <span class="role-icon">EST</span>
+                        <span class="role-name">Estudiante</span>
+                        <span class="role-copy">Solicita un turno en 3 pasos y descarga tu comprobante.</span>
+                    </button>
+                    <button id="tabFuncionarios" class="role-card" type="button">
+                        <span class="role-icon">FUN</span>
+                        <span class="role-name">Funcionario</span>
+                        <span class="role-copy">Accede con PIN de seguridad y gestiona la mesa asignada.</span>
+                    </button>
+                </div>
+                <div id="panelEstudiantes" class="role-panel is-active">
+                    <p class="role-panel-copy">Completa tu solicitud desde el flujo guiado y revisa en tiempo real el estado de la atención.</p>
+                    <button id="goToFormBtn" class="btn btn-primary" type="button">Empezar solicitud</button>
+                </div>
+                <div id="panelFuncionarios" class="role-panel" hidden>
+                    <p class="role-panel-copy">Cada mesa tiene su propia vista operativa para evitar cruces entre funcionarios y mejorar el control.</p>
+                    <a class="btn btn-primary btn-link" href="./admin.html">Ir al login de funcionarios</a>
+                </div>
+            </section>
+
+            <section class="student-board page-section">
+                <article id="turneroRequestPanel" class="panel panel-premium student-wizard">
+                    <div class="student-wizard-head">
+                        <div>
+                            <p class="section-kicker">Flujo del estudiante</p>
+                            <h2 class="section-title">Solicitud guiada</h2>
+                        </div>
+                        <div class="stepper-track" aria-label="Progreso del formulario">
+                            <span id="stepDot1" class="stepper-dot is-active">1</span>
+                            <span id="stepDot2" class="stepper-dot">2</span>
+                            <span id="stepDot3" class="stepper-dot">3</span>
+                        </div>
+                    </div>
+
+                    <div class="stepper-labels">
+                        <span class="step-label is-active">Identificación y carrera</span>
+                        <span class="step-label">Tipo de trámite</span>
+                        <span class="step-label">Resumen de confirmación</span>
+                    </div>
+
+                    <form id="turneroForm" novalidate>
+                        <section id="studentStep1" class="form-step is-active">
+                            <div class="field">
+                                <label for="nombre">Nombre (opcional)</label>
+                                <input id="nombre" name="nombre" type="text" maxlength="80" placeholder="Ejemplo: Ana Perez" />
+                                <p class="hint">Puedes dejarlo vacío si prefieres.</p>
+                            </div>
+
+                            <div class="field">
+                                <label for="programa">Programa académico</label>
+                                <select id="programa" name="programa" required>
+                                    <option value="">Selecciona tu programa</option>
+                                </select>
+                            </div>
+
+                            <div class="actions actions-end">
+                                <button id="btnNextStep" class="btn btn-primary" type="button">Continuar</button>
+                            </div>
+                        </section>
+
+                        <section id="studentStep2" class="form-step" hidden>
+                            <div id="tramiteCards" class="tramite-grid" aria-label="Selector de trámites"></div>
+                            <input id="tipoAtencion" name="tipoAtencion" type="hidden" required />
+
+                            <div class="field" id="otroField" hidden>
+                                <label for="detalleOtro">Detalle del trámite</label>
+                                <input id="detalleOtro" name="detalleOtro" type="text" maxlength="120" placeholder="Describe brevemente tu solicitud" />
+                            </div>
+
+                            <div class="actions actions-between">
+                                <button id="btnPrevStep" class="btn btn-secondary" type="button">Volver</button>
+                                <button id="btnReviewStep" class="btn btn-primary" type="button">Revisar</button>
+                            </div>
+                        </section>
+
+                        <section id="studentStep3" class="form-step" hidden>
+                            <div class="confirm-card">
+                                <p class="section-kicker">Resumen</p>
+                                <h3 class="confirm-title">Confirma tu solicitud</h3>
+                                <ul class="summary summary-confirm">
+                                    <li><strong>Nombre</strong><span id="reviewNombre">No informado</span></li>
+                                    <li><strong>Programa</strong><span id="reviewPrograma">-</span></li>
+                                    <li><strong>Trámite</strong><span id="reviewTipo">-</span></li>
+                                    <li><strong>Detalle</strong><span id="reviewDetalle">No aplica</span></li>
+                                </ul>
+                            </div>
+
+                            <p id="errorMsg" class="error" role="alert" aria-live="polite"></p>
+
+                            <div class="actions actions-between">
+                                <button id="btnBackToType" class="btn btn-secondary" type="button">Editar</button>
+                                <button id="btnGenerar" class="btn btn-primary" type="submit">Confirmar y Obtener Turno</button>
+                            </div>
+                        </section>
+                    </form>
+
+                    <article id="result" class="result" aria-live="polite">
+                        <h2>Turno generado correctamente</h2>
+                        <div class="ticket-circle-wrap">
+                            <p id="ticketCode" class="ticket ticket-circle" aria-label="Código de turno">T-000</p>
+                        </div>
+                        <ul class="summary">
+                            <li><strong>Nombre</strong><span id="outNombre">No informado</span></li>
+                            <li><strong>Programa</strong><span id="outPrograma">-</span></li>
+                            <li><strong>Tipo de atención</strong><span id="outTipo">-</span></li>
+                            <li><strong>Detalle</strong><span id="outDetalle">No aplica</span></li>
+                            <li><strong>Hora de emisión</strong><span id="outEmision">-</span></li>
+                            <li><strong>Hora estimada</strong><span id="outEstimada">-</span></li>
+                        </ul>
+                        <div class="actions actions-between actions-result">
+                            <button id="btnDownloadTicket" class="btn btn-secondary" type="button">Descargar comprobante</button>
+                            <button id="btnLimpiar" class="btn btn-primary" type="button">Nuevo turno</button>
+                        </div>
+                    </article>
+                </article>
+
+                <aside class="public-monitor">
+                    <article class="panel panel-premium public-monitor-card">
+                        <p class="section-kicker">Monitor público</p>
+                        <h2 class="section-title">Cola en tiempo real</h2>
+                        <div class="queue-metrics queue-metrics-compact">
+                            <p><strong>Pendientes</strong><span id="colaPendientes">-</span></p>
+                            <p><strong>Total del día</strong><span id="colaTotal">-</span></p>
+                            <p><strong>Tiempo estimado</strong><span id="colaMinutos">-</span> min</p>
+                        </div>
+                    </article>
+
+                    <article class="panel public-monitor-card">
+                        <div class="monitor-head">
+                            <h3 class="panel-title">Turnos pendientes</h3>
+                        </div>
+                        <div id="publicQueueList" class="queue-list">
+                            <div class="panel-empty">Cargando cola...</div>
+                        </div>
+                    </article>
+
+                    <article class="panel public-monitor-card">
+                        <div class="monitor-head">
+                            <h3 class="panel-title">Mesas activas</h3>
+                        </div>
+                        <div id="publicMesasGrid" class="public-mesas-grid">
+                            <div class="panel-empty">Cargando mesas...</div>
+                        </div>
+                    </article>
+                </aside>
+            </section>
+        </div>
+    </main>
+
+    <script src="./script.js" defer></script>
+</body>
+
+</html>
