@@ -7,7 +7,8 @@
     <title>Mesa 2 | Turnero UT</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" />
 </head>
 
@@ -16,7 +17,8 @@
         <div class="shell-container shell-container-wide">
             <header class="shell-header shell-header-compact">
                 <div class="brand brand-hero">
-                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager" decoding="async" />
+                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager"
+                        decoding="async" />
                     <div>
                         <p class="institution">Universidad del Tolima</p>
                         <h1 class="title">Mesa 2</h1>
@@ -32,7 +34,8 @@
             <section id="mesaSecurePanel" class="panel panel-premium secure-panel page-section">
                 <p class="section-kicker">Acceso seguro requerido</p>
                 <h2 class="section-title">Validación previa al dashboard</h2>
-                <p id="mesaAuthStatus" class="auth-inline-status">Para ingresar a Mesa 2 debes autenticarte desde el panel de funcionarios con PIN de seguridad.</p>
+                <p id="mesaAuthStatus" class="auth-inline-status">Para ingresar a Mesa 2 debes autenticarte desde el
+                    panel de funcionarios con PIN de seguridad.</p>
                 <div class="actions actions-end">
                     <a class="btn btn-primary btn-link" href="./admin.html">Ir a login de funcionario</a>
                 </div>
@@ -43,11 +46,13 @@
                     <article class="panel panel-premium mesa-action-panel">
                         <p class="section-kicker">Control de mesa</p>
                         <div class="mesa-action-grid mesa-action-grid-main">
-                            <button id="btnLlamarSiguiente" class="btn btn-primary btn-main-action" type="button">Llamar Siguiente</button>
+                            <button id="btnLlamarSiguiente" class="btn btn-primary btn-main-action" type="button">Llamar
+                                Siguiente</button>
                             <button id="btnFinalizarActual" class="btn btn-success" type="button">Finalizar</button>
                             <button id="btnCerrarMesa" class="btn btn-danger" type="button">Cerrar Mesa</button>
                         </div>
-                        <p class="panel-hint">Llamar Siguiente toma el primer turno pendiente. Finalizar cierra el turno en atención.</p>
+                        <p class="panel-hint">Llamar Siguiente toma el primer turno pendiente. Finalizar cierra el turno
+                            en atención.</p>
                         <p id="mesaActionFeedback" class="action-feedback" aria-live="polite">Panel operativo listo.</p>
                     </article>
 
@@ -120,6 +125,7 @@
     </main>
 
     <div id="toast" class="toast" aria-live="polite"></div>
+    <script src="./render-config.js"></script>
     <script src="./mesa.js" defer></script>
 </body>
 

@@ -84,6 +84,33 @@ Abre `http://localhost:3000`.
 - `GET /api/mesas`
 - `GET /api/export/turnos.xlsx`
 
+## Despliegue en Render (backend)
+
+Este repositorio ya incluye `render.yaml` para crear el servicio web.
+
+1. En Render, selecciona **New +** -> **Blueprint**.
+2. Conecta el repositorio `F-11rogue/TurneroUT`.
+3. Render detectara el archivo `render.yaml` y creara el servicio `turnero-ut-api`.
+4. Espera a que termine el primer deploy y copia la URL publica del backend.
+
+Variables importantes en Render:
+
+- `NODE_ENV=production`
+- `CORS_ORIGINS=https://f-11rogue.github.io,http://localhost:3000,http://127.0.0.1:3000`
+
+Prueba de salud del backend desplegado:
+
+- `https://TU-SERVICIO.onrender.com/api/health`
+
+## GitHub Pages + backend Render
+
+El frontend de Pages vive en `/docs`.
+
+- URL esperada: `https://f-11rogue.github.io/TurneroUT/`
+- Configuracion de API cliente: `docs/render-config.js`
+
+Si la URL de Render cambia, actualiza `window.TURNERO_API_BASE` en `docs/render-config.js` y vuelve a hacer push.
+
 ## Datos de entrada para crear turno
 
 ```json

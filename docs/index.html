@@ -7,7 +7,8 @@
     <title>Turnero UT | Universidad del Tolima</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" />
 </head>
 
@@ -16,7 +17,8 @@
         <div class="shell-container shell-container-wide">
             <header class="shell-header shell-header-hero">
                 <div class="brand brand-hero">
-                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager" decoding="async" />
+                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager"
+                        decoding="async" />
                     <div>
                         <p class="institution">Universidad del Tolima</p>
                         <h1 class="title">Sistema de turnos administrativos</h1>
@@ -47,11 +49,13 @@
                     </button>
                 </div>
                 <div id="panelEstudiantes" class="role-panel is-active">
-                    <p class="role-panel-copy">Completa tu solicitud desde el flujo guiado y revisa en tiempo real el estado de la atención.</p>
+                    <p class="role-panel-copy">Completa tu solicitud desde el flujo guiado y revisa en tiempo real el
+                        estado de la atención.</p>
                     <button id="goToFormBtn" class="btn btn-primary" type="button">Empezar solicitud</button>
                 </div>
                 <div id="panelFuncionarios" class="role-panel" hidden>
-                    <p class="role-panel-copy">Cada mesa tiene su propia vista operativa para evitar cruces entre funcionarios y mejorar el control.</p>
+                    <p class="role-panel-copy">Cada mesa tiene su propia vista operativa para evitar cruces entre
+                        funcionarios y mejorar el control.</p>
                     <a class="btn btn-primary btn-link" href="./admin.html">Ir al login de funcionarios</a>
                 </div>
             </section>
@@ -80,7 +84,8 @@
                         <section id="studentStep1" class="form-step is-active">
                             <div class="field">
                                 <label for="nombre">Nombre (opcional)</label>
-                                <input id="nombre" name="nombre" type="text" maxlength="80" placeholder="Ejemplo: Ana Perez" />
+                                <input id="nombre" name="nombre" type="text" maxlength="80"
+                                    placeholder="Ejemplo: Ana Perez" />
                                 <p class="hint">Puedes dejarlo vacío si prefieres.</p>
                             </div>
 
@@ -102,7 +107,8 @@
 
                             <div class="field" id="otroField" hidden>
                                 <label for="detalleOtro">Detalle del trámite</label>
-                                <input id="detalleOtro" name="detalleOtro" type="text" maxlength="120" placeholder="Describe brevemente tu solicitud" />
+                                <input id="detalleOtro" name="detalleOtro" type="text" maxlength="120"
+                                    placeholder="Describe brevemente tu solicitud" />
                             </div>
 
                             <div class="actions actions-between">
@@ -127,7 +133,8 @@
 
                             <div class="actions actions-between">
                                 <button id="btnBackToType" class="btn btn-secondary" type="button">Editar</button>
-                                <button id="btnGenerar" class="btn btn-primary" type="submit">Confirmar y Obtener Turno</button>
+                                <button id="btnGenerar" class="btn btn-primary" type="submit">Confirmar y Obtener
+                                    Turno</button>
                             </div>
                         </section>
                     </form>
@@ -146,7 +153,8 @@
                             <li><strong>Hora estimada</strong><span id="outEstimada">-</span></li>
                         </ul>
                         <div class="actions actions-between actions-result">
-                            <button id="btnDownloadTicket" class="btn btn-secondary" type="button">Descargar comprobante</button>
+                            <button id="btnDownloadTicket" class="btn btn-secondary" type="button">Descargar
+                                comprobante</button>
                             <button id="btnLimpiar" class="btn btn-primary" type="button">Nuevo turno</button>
                         </div>
                     </article>
@@ -185,6 +193,7 @@
         </div>
     </main>
 
+    <script src="./render-config.js"></script>
     <script src="./script.js" defer></script>
 </body>
 

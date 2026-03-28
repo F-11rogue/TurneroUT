@@ -1,8 +1,18 @@
 (() => {
     "use strict";
 
-    const API_BASE = "/api";
+    const API_BASE = resolveApiBase();
     const THEME_STORAGE_KEY = "ut_theme";
+
+    function resolveApiBase() {
+        const configuredBase = window.TURNERO_API_BASE || localStorage.getItem("TURNERO_API_BASE") || "";
+        if (!configuredBase) {
+            return "/api";
+        }
+
+        const normalized = configuredBase.replace(/\/+$/, "");
+        return normalized.endsWith("/api") ? normalized : `${normalized}/api`;
+    }
 
     const ATTENTION_META = {
         matricula: { label: "Matrícula", sigla: "MAT", hint: "Actualizaciones y procesos académicos" },

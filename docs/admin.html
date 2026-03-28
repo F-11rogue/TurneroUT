@@ -7,7 +7,8 @@
     <title>Mesas de Atención | Turnero UT</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" />
 </head>
 
@@ -16,11 +17,13 @@
         <div class="shell-container shell-container-medium">
             <header class="shell-header shell-header-compact">
                 <div class="brand brand-hero">
-                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager" decoding="async" />
+                    <img class="brand-logo" src="./assets/images.png" alt="Universidad del Tolima" loading="eager"
+                        decoding="async" />
                     <div>
                         <p class="institution">Universidad del Tolima</p>
                         <h1 class="title">Acceso de funcionarios por mesa</h1>
-                        <p class="subtitle">Ingresa de forma segura a tu mesa para operar el dashboard sin cruces entre perfiles.</p>
+                        <p class="subtitle">Ingresa de forma segura a tu mesa para operar el dashboard sin cruces entre
+                            perfiles.</p>
                     </div>
                 </div>
                 <div class="shell-actions">
@@ -34,7 +37,8 @@
                     <p class="section-kicker">Acceso de funcionarios</p>
                     <h2 class="section-title">Inicio de sesión por mesa</h2>
                 </div>
-                <p class="section-copy">Selecciona tu mesa de atención e ingresa el PIN de seguridad para entrar al dashboard de control.</p>
+                <p class="section-copy">Selecciona tu mesa de atención e ingresa el PIN de seguridad para entrar al
+                    dashboard de control.</p>
 
                 <form id="funcionarioLoginForm" class="funcionario-login-form" novalidate>
                     <div class="field">
@@ -50,20 +54,23 @@
 
                     <div class="field">
                         <label for="mesaPin">PIN de seguridad</label>
-                        <input id="mesaPin" name="mesaPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Ejemplo: 2024" required />
+                        <input id="mesaPin" name="mesaPin" type="password" inputmode="numeric" pattern="[0-9]{4}"
+                            maxlength="4" placeholder="Ejemplo: 2024" required />
                         <p class="hint">Ingresa 4 dígitos para habilitar el dashboard de tu mesa.</p>
                     </div>
 
                     <p id="loginError" class="error" role="alert" aria-live="polite"></p>
 
                     <div class="actions actions-end">
-                        <button id="btnLoginFuncionario" class="btn btn-primary" type="submit">Ingresar al dashboard</button>
+                        <button id="btnLoginFuncionario" class="btn btn-primary" type="submit">Ingresar al
+                            dashboard</button>
                     </div>
                 </form>
             </section>
         </div>
     </main>
 
+    <script src="./render-config.js"></script>
     <script src="./admin.js" defer></script>
 </body>
 

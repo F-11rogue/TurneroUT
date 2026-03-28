@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: turnero-ut-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGINS
+        value: https://f-11rogue.github.io,http://localhost:3000,http://127.0.0.1:3000

@@ -1,9 +1,19 @@
 (() => {
     "use strict";
 
-    const API_BASE = "/api";
+    const API_BASE = resolveApiBase();
     const THEME_STORAGE_KEY = "ut_theme";
     const AUTH_STORAGE_KEY = "ut_mesa_auth";
+
+    function resolveApiBase() {
+        const configuredBase = window.TURNERO_API_BASE || localStorage.getItem("TURNERO_API_BASE") || "";
+        if (!configuredBase) {
+            return "/api";
+        }
+
+        const normalized = configuredBase.replace(/\/+$/, "");
+        return normalized.endsWith("/api") ? normalized : `${normalized}/api`;
+    }
 
     const themeToggle = document.getElementById("themeToggle");
     const loginForm = document.getElementById("funcionarioLoginForm");
